@@ -1,0 +1,9 @@
+﻿<?xml version='1.0' encoding='utf-8' ?>     
+    <hostinfo>
+<host  name='EV3' type='IRQ_Robot' id='AA0236791F8A4058B61F6C6458901FAA' hosttype='legoev3' >
+<ports>
+<p i='2' name='步进电机' type='IRQ_JointStep' id='DD8A0E0D91324973B81E306F2004EF3A' aliasname='B' aliasdisplay='B' />
+<p i='3' name='步进电机_2' type='IRQ_JointStep' id='69981dd251ed4b04bcd37d31022936b7' aliasname='C' aliasdisplay='C' />
+</ports>
+</host>
+</hostinfo>

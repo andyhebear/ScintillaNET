@@ -1,0 +1,1206 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>IRobotQ.RobotDriver</name>
+    </assembly>
+    <members>
+        <member name="F:IRobotQ.Driver.RobotDriver.m_ShareMemoryName">
+            <summary>
+            打印命令前缀
+            </summary>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.StartComm(System.String,System.Int32)">
+            <summary>
+            使用某个端口创建一个消息收发模块
+            </summary>
+            <param name="name"></param>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.CloseComm(System.String)">
+            <summary>
+            关闭通信模块
+            </summary>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.SendCommMsg(System.String,System.String)">
+            <summary>
+            通过通信模块发送文本数据.
+            </summary>
+            <param name="msg"></param>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.GetCommMsgAsString(System.String)">
+            <summary>
+            从通信模块中获取数据.如果没有数据,则返回空字符串""
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.StartComm(System.String,System.String)">
+            <summary>
+            初始化通信模块.
+            指定名称时,不能与已有的名称重复,重复将返回-1.
+            args参数目前应该是"IP:端口"
+            如果初始化成功则返回0.
+            </summary>
+            <param name="name">通信模块名称,该名称不能与已有的名称重复</param>
+            <param name="args">参数.目前应该是"IP:端口"</param>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.GetCommMsgAsBytes(System.String)">
+            <summary>
+            从通信模块中获取数据.如果没有数据,则返回空
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.GetLastCommMsgAsString(System.String)">
+            <summary>
+            从通信模块中获取最新的数据.之前的数据将被丢弃.如果没有数据,则返回空
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.GetLastCommMsgAsBytes(System.String)">
+            <summary>
+            从通信模块中获取最新的数据.之前的数据将被丢弃.如果没有数据,则返回空
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.SendCommMsg(System.String,System.Byte[])">
+            <summary>
+            通过通信模块发送二进制数据.
+            </summary>
+            <param name="name"></param>
+            <param name="msg"></param>
+        </member>
+        <member name="F:IRobotQ.Driver.RobotDriver.m_ShareMemoryMmfCmdShow">
+            <summary>
+            打印命令操作类
+            </summary>
+        </member>
+        <member name="F:IRobotQ.Driver.RobotDriver.m_ShareMemoryBufCmdShow">
+            <summary>
+            打印命令数据
+            </summary>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.WriteCmdStrToShareMemory(IRobotQ.Driver.WriteCmdStrShowType,System.String)">
+            <summary>
+            把要显示的字符写进内存共享区
+            </summary>
+            <param name="cmdtype"></param>
+            <param name="cmdstr"></param>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.Init(System.String,System.String,System.Int32)">
+            <summary>
+            初始化.
+            返回值:
+            0:成功
+            1:获取本地IP失败
+            2:连接控制器失败
+            </summary>
+            <param name="robotID">机器人id</param>
+            <param name="hostIP">仿真系统IP</param>
+            <param name="port">仿真系统端口</param>
+            <returns>
+            返回值:
+            0:成功
+            1:获取本地IP失败
+            2:连接控制器失败
+            </returns>
+            <remarks>
+            该函数在main函数之后被调用.三个参数取至Main函数的前三个参数,序号必须一致.
+            </remarks>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.Init(System.String[])">
+            <summary>
+            初始化.
+            返回值:
+            0:成功
+            1:获取本地IP失败
+            2:连接控制器失败
+            </summary>
+            <param name="args"></param>
+            <returns>
+            返回值:
+            0:成功
+            1:获取本地IP失败
+            2:连接控制器失败
+            </returns>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.Close">
+            <summary>
+            关闭
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="F:IRobotQ.Driver.RobotDriver.GETTIME">
+             GetTime:    1
+             GetJoint:   2
+             GetPort:    3
+             GetLight:   4
+             GetGray:    5
+             GetColor:   6
+             IsTouch:    7
+             GetCompass: 8
+             GetObst:    9
+             
+             
+             SetMotor:   1024 + 长度 + port+value
+             SetMotors:  1025 + 长度 + "port,value,port,value.."
+             StopMotor:  1026 + 长度 + port
+             StopMotors: 1027 + 长度 + "port,port,port.."
+             StopAllMotor:1028
+             SetJoint:   1029 + 长度 + port + value
+             SetJoints:  1030 + 长度 + "port,value,port,value.."
+             
+             PRINT:      1038 + 长度 + 显示数据的字符串内容
+             
+             SetValue:   1040 + 长度 + port + value   所有对传感器的设置都采用此命令
+            
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.SetMotor(System.Int32,System.Int32)">
+            <summary>
+            设置电动机的值
+            </summary>
+            <param name="port">端口.取值范围:1-20</param>
+            <param name="value">值</param>
+            <example>SetMotor(1,10);</example>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.SetMotors(System.Int32[])">
+            <summary>
+            设置多个电机的值
+            </summary>
+            <param name="value">值,格式:端口,值,端口,值...</param>
+            <example>SetMotors(1,10,2,10);</example>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.SetMotors(System.String)">
+            <summary>
+            设置多个电机的值
+            </summary>
+            <param name="value">使用逗号分隔的字符串,如:端口,值,端口1,值1</param>
+            <example>SetMotors("1,10,2,10");</example>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.StopAllMotor">
+            <summary>
+            停止所有电机
+            </summary>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.StopMotors(System.Int32[])">
+            <summary>
+            停止指定的电机
+            </summary>
+            <param name="ports">电机端口列表</param>
+            <example>
+            StopMotors(1,2,3,4);
+            </example>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.StopMotors(System.String)">
+            <summary>
+            停止指定的电机
+            </summary>
+            <param name="value">逗号分隔的端口列表</param>
+            <example>停止1,2,3,4号端口上的电机:StopMotors("1,2,3,4");</example>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.SetJoint(System.Int32,System.Int32)">
+            <summary>
+            设置关节的值
+            </summary>
+            <param name="port">端口:1-20</param>
+            <param name="value">值</param>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.SetJoints(System.Int32[])">
+            <summary>
+            设置多个伺服电机的值
+            </summary>
+            <param name="value">值.格式:端口,值,端口,值...</param>
+            <example>
+            将10端口上的伺服电机设置到90度,11端口上的设置到120度
+            SetJoints(10,90,11,120);
+            </example>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.SetJoints(System.String)">
+            <summary>
+            设置伺服电机的值
+            </summary>
+            <param name="value">逗号分隔的端口值</param>
+            <example>
+            将10端口上的伺服电机设置到90度,11端口上的设置到120度
+            SetJoints("10,90,11,120");
+            </example>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.TanShe(System.Int32[])">
+            <summary>
+            弹射
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.Catapult(System.Int32[])">
+            <summary>
+            弹射
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.TanShe(System.String)">
+            <summary>
+            弹射。值格式:"端口1，值1，端口2，值2"
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.Catapult(System.String)">
+            <summary>
+            弹射
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.SetJointsSim(System.Int32,System.Int32,System.Int32,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="dirveType"></param>
+            <param name="step"></param>
+            <param name="time"></param>
+            <param name="values"></param>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.SetJointsSim(System.Int32,System.Int32,System.Int32,System.Int32[])">
+            <summary>
+            设置仿真关节驱动
+            </summary>
+            <param name="dirveType">1:为步进模式，2：为总时间模式</param>
+            <param name="step">步进量</param>
+            <param name="time">步进延时/总时间</param>
+            <param name="values">端口，值,端口，值,...</param>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.SetJointsSimStep(System.Int32,System.Int32,System.Int32[])">
+            <summary>
+            多伺服步进驱动
+            </summary>
+            <param name="step">每次步进量(度)</param>
+            <param name="delayTime">两次步进间隔时间(ms)</param>
+            <param name="targetList">伺服目标角度列表, 端口,值,端口,值...</param>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.SetJointsSimTime(System.Int32,System.Int32[])">
+            <summary>
+            多伺服总时间驱动
+            </summary>
+            <param name="totalTime">驱动到目标角度的总时间(ms)</param>
+            <param name="targetList">伺服目标角度列表, 端口,值,端口,值...</param>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.SetLED(System.Int32,System.String,System.String)">
+            <summary>
+            设置LED灯的是否开启及颜色
+            </summary>
+            <param name="port">端口</param>
+            <param name="openorclose">开/关</param>
+            <param name="color">红/橙/黄/绿/蓝/靛/紫/白/黑,其中，黑等同于关掉led</param>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.SetPrismatic(System.Int32,System.Int32)">
+            <summary>
+            设置滑竿位置
+            </summary>
+            <param name="port">端口</param>
+            <param name="pos">位置</param>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.SetBroken(System.Int32)">
+            <summary>
+            驱动断开模块进行断开操作
+            </summary>
+            <param name="port">端口</param>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.PenStartWrite(System.Int32)">
+            <summary>
+            开始画
+            </summary>
+            <param name="port">端口</param>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.SetPenSize(System.Int32,System.Int32)">
+            <summary>
+            设置画笔尺寸
+            </summary>
+            <param name="port">端口</param>
+            <param name="size">尺寸</param>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.SetPenColor(System.Int32,System.String)">
+            <summary>
+            设置画笔颜色
+            </summary>
+            <param name="port">端口</param>
+            <param name="color">颜色值,带引号的rgb，如"255,0,0"</param>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.PenStopWrite(System.Int32)">
+            <summary>
+            停止画
+            </summary>
+            <param name="port"></param>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.SetJointStep(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            步进电机
+            </summary>
+            <param name="port">端口</param>
+            <param name="type">0:表示旋转模式1：步进模式</param>
+            <param name="degreespeed">速度</param>
+            <param name="targetvalue">目标角度</param>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.GetCamera(System.Int32)">
+            <summary>
+            获取指定相机的数据
+            </summary>
+            <param name="port">端口</param>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.GetGPS(System.Int32)">
+            <summary>
+            获取GPS的值，其中返回值的低32位是X值，高32位是Z值
+            </summary>
+            <param name="port">端口</param>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.GetGPS2(System.Int32)">
+            <summary>
+            获取GPS的值，其中返回值为GPSValue类型
+            </summary>
+            <param name="port">端口</param>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.GetGyroFromLong(System.Int64)">
+            <summary>
+            获取陀螺仪的各个方向的值
+            </summary>
+            <param name="gyro"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.GetLifeByIndex(System.Byte[],System.Int32)">
+            <summary>
+            以1开始
+            </summary>
+            <param name="lifebuf"></param>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.IsTouch(System.Int32)">
+            <summary>
+            是否接触.返回1:接触.返回0:没有接触
+            </summary>
+            <param name="port"></param>
+            <returns>1:接触.0:没有接触</returns>
+            <example>
+            //如果30端口的
+            if(IsTouch(30)==1){
+                //后退
+            }
+            </example>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.GetTouch(System.Int32)">
+            <summary>
+            是否接触.同IsTouch
+            </summary>
+            <param name="port"></param>
+            <returns>1:接触.0:没有接触</returns>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.GetJoint(System.Int32)">
+            <summary>
+            获取关节值
+            </summary>
+            <param name="port"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.m_GetJoint(System.Int32)">
+            <summary>
+            获取关节最后一次设置的值
+            </summary>
+            <param name="port">关节的端口</param>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.GetMotor(System.Int32)">
+            <summary>
+            获取马达值
+            </summary>
+            <param name="port"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.GetPrismatic(System.Int32)">
+            <summary>
+            获取滑动值
+            </summary>
+            <param name="port"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.GetDist(System.Int32)">
+            <summary>
+            获取距离,如果检测范围内没有物体,将返回MaxValue
+            </summary>
+            <param name="port">端口</param>
+            <returns>如果检测范围内没有物体,将返回MaxValue</returns>
+            <example>
+            如果距离大于100,就向前
+            if(GetDist(30)>100){
+                //向前
+            }
+            </example>
+        </member>
+        <!-- 对于成员“M:IRobotQ.Driver.RobotDriver.GetColor(System.Int32)”忽略有格式错误的 XML 注释 -->
+        <member name="M:IRobotQ.Driver.RobotDriver.GetColorAsColor(System.Int32)">
+            <summary>
+            获取颜色传感器的颜色,颜色值使用Color结构表示
+            </summary>
+            <param name="port"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.GetGray(System.Int32)">
+            <summary>
+            获取当前检测到的颜色的灰度值,0-255的灰度值.未检测到有颜色的物体时,返回0.黑色为255,白色为0
+            </summary>
+            <param name="port"></param>
+            <returns>0-255的灰度值.未检测到有颜色的物体时,返回0.黑色为255,白色为0</returns>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.GetLight(System.Int32)">
+            <summary>
+            获取光亮传感器的值.
+            </summary>
+            <param name="port"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.GetLightSignal(System.Int32)">
+            <summary>
+            获取红外信号
+            </summary>
+            <param name="port"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.GetObst(System.Int32)">
+            <summary>
+            是否有障碍，返回1表示有障碍，返回0表示无障碍。
+            </summary>
+            <param name="port">端口</param>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.GetHeight(System.Int32)">
+            <summary>
+            获取海拔高度
+            </summary>
+            <param name="port">端口</param>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.GetBattery(System.Int32)">
+            <summary>
+            获取指定电池的电量
+            </summary>
+            <param name="port"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.GetHostBattery">
+            <summary>
+            获取的可用的总电量
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.GetHostBattery(System.Int32)">
+            <summary>
+            获取的可用的总电量.port端口值必须为71
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.GetGyro(System.Int32)">
+            <summary>
+            获取陀螺仪的值
+            </summary>
+            <param name="port"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.GetCompass(System.Int32)">
+            <summary>
+            获取指南针的值,返回指南针的值.0-360度
+            </summary>
+            <param name="port"></param>
+            <returns>返回指南针的值.0-360度</returns>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.SetValue(System.Int32,System.Int32)">
+            <summary>
+            设置传感器的值
+            </summary>
+            <param name="port"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.Sleep(System.Int32)">
+            <summary>
+            延时.该延时的最小精度为16.6666毫秒
+            </summary>
+            <param name="mseconds">单位毫秒</param>
+            
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.Print(System.Object[])">
+            <summary>
+            显示.
+            字符串的显示:Print("字符串");
+            数值的显示:Print(1);
+            运算结果的显示:Print(Sin(0.3)+8*(1-2));
+            字符串和运算结果的混合显示: Print("1+1="+(1+1));
+            
+            不支持直接的传感器数值显示,需要通过赋值来实现.
+            </summary>
+            <param name="value">需要显示的值或者表达式</param>
+            <example>
+            字符串的显示:Print("Hello world");
+            数值的显示:Print(1    
+            运算结果的显示:Print(Math.Sin(0.3)+8*(1-2));
+            字符串和运算结果的混合显示: Print("1+1="+(1+1));
+            </example>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.ConsoleToWrite(System.String)">
+            <summary>
+            不要超过1024个字符
+            </summary>
+            <param name="str"></param>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.ShowElement(System.String,System.Object)">
+            <summary>
+            显示元素：
+            
+            </summary>
+            <param name="memo"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.StartTime">
+            <summary>
+            开始计时.
+            通常配合GetTime()一起使用.
+            </summary>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.GetTime">
+            <summary>
+            获取自StartTime到当前经过的毫秒数
+            </summary>
+            <returns>自StartTime到当前经过的毫秒数</returns>
+        </member>
+        <member name="M:IRobotQ.Driver.RobotDriver.GetPort(System.Int32,System.UInt16)">
+            <summary>
+            作用范围只能取INT类型的返回值
+            </summary>
+            <param name="port"></param>
+            <param name="cmdid"></param>
+            <returns></returns>
+        </member>
+        <member name="T:IRobotQ.Driver.IComm">
+            <summary>
+            通信模块接口
+            </summary>
+        </member>
+        <member name="T:IRobotQ.Driver.ICommClient">
+            <summary>
+            通信模块客户端接口
+            </summary>
+        </member>
+        <member name="T:IRobotQ.Driver.CommSystem">
+            <summary>
+            通信系统
+            </summary>
+        </member>
+        <member name="M:IRobotQ.Driver.CommSystem.StartComm(System.String,System.String,System.String)">
+            <summary>
+            启动一个通信系统
+            </summary>
+            <param name="name">该通信系统名称.如果名称重复,将返回-1</param>
+            <param name="type">通信模块类型.目前支持"TCP"</param>
+            <param name="args">通信模块参数</param>
+            <returns>名称重复,将返回-1，成功返回0.否则返回错误号</returns>
+        </member>
+        <member name="M:IRobotQ.Driver.CommSystem.JoinComm(System.String,System.String,System.String)">
+            <summary>
+            加入到指定的通信系统
+            </summary>
+            <param name="name">通信系统名称,如果已经加入过，将返回-1</param>
+            <param name="type">通信模块类型.目前支持"TCP"</param>
+            <param name="args">通信模块参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Driver.CommSystem.CloseComm(System.String)">
+            <summary>
+            关闭指定名称的通信系统
+            </summary>
+            <param name="name"></param>
+        </member>
+        <member name="M:IRobotQ.Driver.CommSystem.GetCommMsgAsString(System.String)">
+            <summary>
+            按序收取指定通信系统的数据,以文本形式表达.
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Driver.CommSystem.GetCommMsgAsBytes(System.String)">
+            <summary>
+            按序收取指定通信系统的数据,以二进制形式表达.
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Driver.CommSystem.GetLastCommMsgAsString(System.String)">
+            <summary>
+            收取最后收到的数据,以文本形式表达.
+            收取以后,所有已收到的数据会被清空.
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Driver.CommSystem.GetLastCommMsgAsBytes(System.String)">
+            <summary>
+            收取最后收到的数据,以二进制形式表达.
+            收取以后,所有已收到的数据会被清空.
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Driver.CommSystem.SendCommMsg(System.String,System.String)">
+            <summary>
+            以广播形式发送数据
+            </summary>
+            <param name="name"></param>
+            <param name="msg"></param>
+        </member>
+        <member name="T:IRobotQ.Driver.Test_TcpComm">
+            <summary>
+            测试程序。
+            </summary>
+        </member>
+        <member name="T:IRobotQ.Driver.WriteCmdStrShowType">
+            <summary>
+            命令显示类型 
+            </summary>
+        </member>
+        <member name="F:IRobotQ.Driver.WriteCmdStrShowType.MainHandOffset">
+            <summary>
+            进程handle存放位置
+            </summary>
+        </member>
+        <member name="F:IRobotQ.Driver.WriteCmdStrShowType.StrFlagOffset">
+            <summary>
+            命令从16个字节处开始写,前16个字节备用
+            </summary>
+        </member>
+        <member name="F:IRobotQ.Driver.WriteCmdStrShowType.CmdStrLen">
+            <summary>
+            字符最大长度
+            </summary>
+        </member>
+        <member name="F:IRobotQ.Driver.WriteCmdStrShowType.MemorySize">
+            <summary>
+            内存大小
+            </summary>
+        </member>
+        <member name="T:IRobotQ.Driver.TcpComm">
+            <summary>
+            基于TCP的通信系统
+            </summary>
+        </member>
+        <member name="M:IRobotQ.Driver.TcpComm.TcpCommClient.EndRecv(System.IAsyncResult)">
+            <summary>
+            结束一次接收,如果数据包完整,则返回数据包
+            </summary>
+            <param name="ir"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Driver.TcpComm.TcpCommClient.Send(System.Byte[])">
+            <summary>
+            发送数据
+            </summary>
+            <param name="buf"></param>
+        </member>
+        <member name="T:IRobotQ.Driver.TcpComm.RecvedMsg">
+            <summary>
+            收到数据
+            </summary>
+        </member>
+        <member name="T:IRobotQ.Common.IO.SharedMemory.MapProtection">
+            <summary>
+              Specifies page protection for the mapped file
+              These correspond to the PAGE_XXX set of flags
+              passed to CreateFileMapping()
+            </summary>
+        </member>
+        <member name="T:IRobotQ.Common.IO.SharedMemory.MapViewStream">
+            <summary>
+              Allows you to read/write from/to
+              a view of a memory mapped file.
+            </summary>
+        </member>
+        <member name="M:IRobotQ.Common.IO.SharedMemory.MapViewStream.#ctor(System.IntPtr,System.Int64,IRobotQ.Common.IO.SharedMemory.MapProtection)">
+            <summary>
+            Constructor used internally by MemoryMappedFile.
+            </summary>
+            <param name="baseAddress">base address where the view starts</param>
+            <param name="length">Length of view, in bytes</param>
+            <param name="protection"></param>
+        </member>
+        <member name="T:IRobotQ.Common.IO.SharedMemory.FileMapIOException">
+            <summary>Exception class thrown by the library</summary>
+            <remarks>
+              Represents an exception occured as a result of an
+              invalid IO operation on any of the File mapping classes
+              It wraps the error message and the underlying Win32 error
+              code that caused the error.
+            </remarks>
+        </member>
+        <member name="F:IRobotQ.Driver.IRQ_Ctl_Commands.GetPortAsString">
+            <summary>
+            写两位长度 编码 Encoding.UTF8
+            </summary>
+        </member>
+        <member name="F:IRobotQ.Driver.IRQ_Ctl_Commands.GetPortAsBytes">
+            <summary>
+            写4位长度
+            </summary>
+        </member>
+        <member name="F:IRobotQ.Driver.IRQ_Ctl_Commands.GetHostBattery">
+            <summary>
+            获取主机电量专用.
+            </summary>
+        </member>
+        <member name="F:IRobotQ.Driver.IRQ_Ctl_Commands.SetDigit">
+            <summary>
+            设置数字口。值通常是0/1
+            </summary>
+        </member>
+        <member name="M:IRQ_BinaryRW.WriteBytes1(System.Byte*,System.Int32@,System.Byte[])">
+            <summary>
+            一个字节长度写进去了
+            </summary>
+            <param name="buf"></param>
+            <param name="offset"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:IRQ_BinaryRW.WriteBytes2(System.Byte*,System.Int32@,System.Byte[])">
+            <summary>
+            2个字节长度 写进去了
+            </summary>
+            <param name="buf"></param>
+            <param name="offset"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:IRQ_BinaryRW.WriteBytes4(System.Byte*,System.Int32@,System.Byte[])">
+            <summary>
+            4个字节长度 写进去了
+            </summary>
+            <param name="buf"></param>
+            <param name="offset"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:IRQ_BinaryRW.WriteString(System.Byte*,System.Int32@,System.String,System.Text.Encoding)">
+            <summary>
+            把长度2 字节写进了
+            </summary>
+            <param name="buf"></param>
+            <param name="offset"></param>
+            <param name="value"></param>
+            <param name="encoding"></param>
+        </member>
+        <member name="M:IRQ_BinaryRW.WriteString1(System.Byte*,System.Int32@,System.String,System.Text.Encoding)">
+            <summary>
+            把长度1 字节写进了
+            </summary>
+            <param name="buf"></param>
+            <param name="offset"></param>
+            <param name="value"></param>
+            <param name="encoding"></param>
+        </member>
+        <member name="M:IRQ_BinaryRW.WriteString2(System.Byte*,System.Int32@,System.String,System.Text.Encoding)">
+            <summary>
+            把长度2 字节写进了
+            </summary>
+            <param name="buf"></param>
+            <param name="offset"></param>
+            <param name="value"></param>
+            <param name="encoding"></param>
+        </member>
+        <member name="M:IRQ_BinaryRW.ReadString1(System.Byte*,System.Int32@,System.Text.Encoding)">
+            <summary>
+            把 1位 的长度也读进来了
+            </summary>
+            <param name="stream"></param>
+            <param name="len"></param>
+            <param name="encoding"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IRQ_BinaryRW.ReadString2(System.Byte*,System.Int32@,System.Text.Encoding)">
+            <summary>
+            把 2位 的长度也读进来了
+            </summary>
+            <param name="stream"></param>
+            <param name="len"></param>
+            <param name="encoding"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IRQ_BinaryRW.ReadByte(System.Byte[],System.Int32@)">
+            <summary>
+            读取byte[]buf 中 offset位置的byte值
+            </summary>
+            <param name="buf">整个数组</param>
+            <param name="offset">偏移位置</param>
+            <returns></returns>
+        </member>
+        <member name="M:IRQ_BinaryRW.ReadBytes(System.Byte[],System.Int32@,System.Int32)">
+            <summary>
+             读取byte[]buf 中 offset位置为起点长度为len的的byte[]值
+            </summary>
+            <param name="buf">整个数组</param>
+            <param name="offset">偏移位置</param>
+            <param name="len">长度</param>
+            <returns></returns>
+        </member>
+        <member name="M:IRQ_BinaryRW.ReadBytes(System.Byte*,System.Int32@,System.Int32)">
+            <summary>
+             读取byte[]buf 中 offset位置为起点长度为len的的byte[]值
+            </summary>
+            <param name="buf">整个数组</param>
+            <param name="offset">偏移位置</param>
+            <param name="len">长度</param>
+            <returns></returns>
+        </member>
+        <member name="M:IRQ_BinaryRW.ReadBytes1(System.Byte*,System.Int32@)">
+            <summary>
+            把1个字节长度也读进来了
+            </summary>
+            <param name="buf"></param>
+            <param name="offset"></param>
+            <param name="len"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IRQ_BinaryRW.ReadBytes2(System.Byte*,System.Int32@)">
+            <summary>
+            把2个字节长度也读进来了
+            </summary>
+            <param name="buf"></param>
+            <param name="offset"></param>
+            <param name="len"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IRQ_BinaryRW.ReadBytes4(System.Byte*,System.Int32@)">
+            <summary>
+            把4个字节长度也读进来了
+            </summary>
+            <param name="buf"></param>
+            <param name="offset"></param>
+            <param name="len"></param>
+            <returns></returns>
+        </member>
+        <member name="F:IRobotQ.Driver.GPSValue.X">
+            <summary>
+            GPS的X坐标
+            </summary>
+        </member>
+        <member name="F:IRobotQ.Driver.GPSValue.Z">
+            <summary>
+            GPS的Z坐标
+            </summary>
+        </member>
+        <member name="T:IRobotQ.Driver.ScreenCapture">
+            <summary>
+            提供全屏和指定窗口的截图 以及保存为文件的类
+            </summary>
+        </member>
+        <member name="M:IRobotQ.Driver.ScreenCapture.CaptureScreen">
+            <summary>
+            全屏截图
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Driver.ScreenCapture.CaptureWindow(System.IntPtr)">
+            <summary>
+            指定窗口截图
+            </summary>
+            <param name="handle">窗口句柄. (在windows应用程序中, 从Handle属性获得)</param>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Driver.ScreenCapture.CaptureWindowToFile(System.IntPtr,System.String,System.Drawing.Imaging.ImageFormat)">
+            <summary>
+            指定窗口截图 保存为图片文件
+            </summary>
+            <param name="handle"></param>
+            <param name="filename"></param>
+            <param name="format"></param>
+        </member>
+        <member name="M:IRobotQ.Driver.ScreenCapture.CaptureScreenToFile(System.String,System.Drawing.Imaging.ImageFormat)">
+            <summary>
+            全屏截图 保存为文件
+            </summary>
+            <param name="filename"></param>
+            <param name="format"></param>
+        </member>
+        <member name="T:IRobotQ.Driver.ScreenCapture.GDI32">
+            <summary>
+            辅助类 定义 Gdi32 API 函数
+            </summary>
+        </member>
+        <member name="T:IRobotQ.Driver.ScreenCapture.User32">
+            <summary>
+            辅助类 定义User32 API函数
+            </summary>
+        </member>
+        <member name="T:IRobotQ.Common.IO.SharedMemory.MapAccess">
+            <summary>
+              访问权限设置
+            </summary>
+        </member>
+        <member name="T:IRobotQ.Common.IO.SharedMemory.MemoryMappedFile">
+            <summary>
+            内存映射文件操作类
+            </summary>
+        </member>
+        <member name="M:IRobotQ.Common.IO.SharedMemory.MemoryMappedFile.Create(IRobotQ.Common.IO.SharedMemory.MapProtection,System.Int64,System.String)">
+            <summary>
+              Create an unnamed map object with no file backing
+            </summary>
+            <param name="protection">desired access to the 
+                       mapping object</param>
+            <param name="maxSize">maximum size of filemap object</param>
+            <param name="name">name of file mapping object</param>
+            <returns>The memory mapped file instance</returns>
+        </member>
+        <member name="M:IRobotQ.Common.IO.SharedMemory.MemoryMappedFile.Create(IRobotQ.Common.IO.SharedMemory.MapProtection,System.Int64)">
+            <summary>
+              Create an named map object with no file backing
+            </summary>
+            <param name="protection">desired access to the 
+                       mapping object</param>
+            <param name="maxSize">maximum size of filemap object</param>
+            <returns>The memory mapped file instance</returns>
+        </member>
+        <member name="M:IRobotQ.Common.IO.SharedMemory.MemoryMappedFile.Create(System.String,IRobotQ.Common.IO.SharedMemory.MapProtection)">
+            <summary>
+              Create an unnamed map object with a maximum size
+              equal to that of the file
+            </summary>
+            <param name="fileName">name of backing file</param>
+            <param name="protection">desired access to the 
+                       mapping object</param>
+            <returns>The memory mapped file instance</returns>
+        </member>
+        <member name="M:IRobotQ.Common.IO.SharedMemory.MemoryMappedFile.Create(System.String,IRobotQ.Common.IO.SharedMemory.MapProtection,System.Int64)">
+            <summary>
+              Create an unnamed map object 
+            </summary>
+            <param name="fileName">name of backing file</param>
+            <param name="protection">desired access to the 
+                       mapping object</param>
+            <param name="maxSize">maximum size of filemap 
+                       object, or -1 for size of file</param>
+            <returns>The memory mapped file instance</returns>
+        </member>
+        <member name="M:IRobotQ.Common.IO.SharedMemory.MemoryMappedFile.Create(System.String,IRobotQ.Common.IO.SharedMemory.MapProtection,System.Int64,System.String)">
+            <summary>
+              Create a named map object 
+            </summary>
+            <param name="fileName">name of backing file, or null 
+                       for a pagefile-backed map</param>
+            <param name="protection">desired access to the mapping 
+                       object</param>
+            <param name="maxSize">maximum size of filemap object, or 0 
+                       for size of file</param>
+            <param name="name">name of file mapping object</param>
+            <returns>The memory mapped file instance</returns>
+        </member>
+        <member name="M:IRobotQ.Common.IO.SharedMemory.MemoryMappedFile.Open(IRobotQ.Common.IO.SharedMemory.MapAccess,System.String)">
+            <summary>
+              Open an existing named File Mapping object
+            </summary>
+            <param name="access">desired access to the map</param>
+            <param name="name">name of object</param>
+            <returns>The memory mapped file instance</returns>
+        </member>
+        <member name="M:IRobotQ.Common.IO.SharedMemory.MemoryMappedFile.Close">
+            <summary>
+              Close this File Mapping object
+              From here on, You can't do anything with it
+              but the open views remain valid.
+            </summary>
+        </member>
+        <member name="M:IRobotQ.Common.IO.SharedMemory.MemoryMappedFile.MapView(IRobotQ.Common.IO.SharedMemory.MapAccess,System.Int64,System.Int32)">
+            <summary>
+              Map a view of the file mapping object
+              This returns a stream, giving you easy access to the memory,
+              as you can use StreamReaders and StreamWriters on top of it
+            </summary>
+            <param name="access">desired access to the view</param>
+            <param name="offset">offset of the file mapping object to 
+                       start view at</param>
+            <param name="size">size of the view</param>
+        </member>
+        <member name="F:IRobotQ.Network.ByteQueue.m_internalOffset">
+            <summary>
+            InternalBuffer的实际偏移量.
+            </summary>
+        </member>
+        <member name="F:IRobotQ.Network.ByteQueue.BufferSize">
+            <summary>
+            总尺寸
+            </summary>
+        </member>
+        <member name="F:IRobotQ.Network.ByteQueue.MaxUse">
+            <summary>
+            使用过的最大尺寸
+            </summary>
+        </member>
+        <member name="F:IRobotQ.Network.ByteQueue.InternalBuffer">
+            <summary>
+            数据缓冲区
+            </summary>
+        </member>
+        <member name="F:IRobotQ.Network.ByteQueue.BufferPtr">
+            <summary>
+            缓冲区地址
+            </summary>
+        </member>
+        <member name="M:IRobotQ.Network.ByteQueue.HaveSequnceSpace(System.Int32)">
+            <summary>
+            是否存在指定大小的连续的空余内存.如果有则返回可写入的绝对地址
+            </summary>
+            <param name="size"></param>
+            <returns>如果有,则返回绝对地址,否则返回-1</returns>
+        </member>
+        <member name="M:IRobotQ.Network.ByteQueue.CopyTo(IRobotQ.Network.ByteQueue,System.Int32)">
+            <summary>
+            从src的当前位置开始向target copy size字节数据.target的接收地址偏移量是targetOffset
+            不支持流式模式的目标
+            将引起Read指针的偏移，偏移量是size。
+            </summary>
+            <param name="src"></param>
+            <param name="target"></param>
+            <param name="targetOffset">target的绝对偏移</param>
+            <param name="size"></param>
+            <returns>拷贝的字节数.</returns>
+        </member>
+        <member name="F:IRobotQ.Network.ByteQueue.ResizeCapacity">
+            <summary>
+            扩容基数。即每次扩容增加的字节数
+            默认为4K。
+            </summary>
+        </member>
+        <member name="M:IRobotQ.Network.ByteQueue.Write(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            压入数据,如果缓冲区已满,将返回false
+            使用前通过调用HaveSequnceSpace进行可用空间确认.
+            </summary>
+            <param name="data"></param>
+            <param name="offset">data的偏移</param>
+            <param name="size">写入的大小</param>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Network.ByteQueue.Write(System.Byte*,System.Int32)">
+            <summary>
+            使用前通过调用HaveSequnceSpace进行可用空间确认.
+            </summary>
+            <param name="data"></param>
+            <param name="size"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Network.ByteQueue.Write(System.Int64)">
+            <summary>
+            在指定位置压入一个Long型.
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Network.ByteQueue.Relpace(System.Int32,System.Int32)">
+            <summary>
+            将指定位置处的int值替换。
+            </summary>
+            <param name="value"></param>
+            <param name="offset"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Network.ByteQueue.Relpace(System.UInt16,System.Int32)">
+            <summary>
+            将指定位置处的ushort值替换。
+            </summary>
+            <param name="value"></param>
+            <param name="offset"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Network.ByteQueue.WriteDataInOutSide(System.Int32)">
+            <summary>
+            外部程序直接向InternalBuffer的写了数据
+            </summary>
+            <param name="size"></param>
+        </member>
+        <member name="M:IRobotQ.Network.ByteQueue.WriteDataInOutSide(System.Int32,System.Int32)">
+            <summary>
+            外部程序直接向InternalBuffer的指定地址写了数据
+            </summary>
+            <param name="writeAddr">通过HaveSequnceSize取到的绝对地址</param>
+            <param name="size"></param>
+        </member>
+        <member name="M:IRobotQ.Network.ByteQueue.ReadBytes(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            读取数据,如果缓冲区已空,将返回0
+            </summary>
+            <param name="buf"></param>
+            <param name="offset">buf的偏移</param>
+            <param name="size">读取的大小,</param>
+            <returns>返回实际读取的字节数</returns>
+        </member>
+        <member name="M:IRobotQ.Network.ByteQueue.PeekBytes(System.Int32,System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            读取指定的字节而不移动读取指针.
+            </summary>
+            <param name="srcOffset">指定读取的其实偏移量</param>
+            <param name="buf"></param>
+            <param name="offset"></param>
+            <param name="size"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Network.ByteQueue.ReadString1(System.Text.Encoding)">
+            <summary>
+            把 1位 的长度也读进来了
+            </summary>
+            <param name="stream"></param>
+            <param name="len"></param>
+            <param name="encoding"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Network.ByteQueue.ReadString2(System.Text.Encoding)">
+            <summary>
+            把 2位 的长度也读进来了
+            </summary>
+            <param name="stream"></param>
+            <param name="len"></param>
+            <param name="encoding"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Network.ByteQueue.ReadBytes(System.Int32)">
+            <summary>
+             读取byte[]buf 中 offset位置为起点长度为len的的byte[]值
+            </summary>
+            <param name="buf">整个数组</param>
+            <param name="offset">偏移位置</param>
+            <param name="len">长度</param>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Network.ByteQueue.ReadBytes1">
+            <summary>
+            把1个字节长度也读进来了
+            </summary>
+            <param name="buf"></param>
+            <param name="offset"></param>
+            <param name="len"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Network.ByteQueue.ReadBytes2">
+            <summary>
+            把2个字节长度也读进来了
+            </summary>
+            <param name="buf"></param>
+            <param name="offset"></param>
+            <param name="len"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IRobotQ.Network.ByteQueue.SkipBytes(System.Int32)">
+            <summary>
+            跳过指定的字节数
+            </summary>
+            <param name="bytes"></param>
+        </member>
+        <member name="M:IRobotQ.Network.ByteQueue.#ctor(System.Byte[],System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            使用外部缓存。
+            </summary>
+            <param name="buf"></param>
+            <param name="offset"></param>
+            <param name="size"></param>
+        </member>
+    </members>
+</doc>

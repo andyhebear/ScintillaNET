@@ -1,0 +1,17 @@
+initrobot
+print :M1
+
+mt  1 10
+mt 3 10
+wait 3000
+
+smt 1
+smt 3
+wait 3000
+
+mt 1 5
+mt 2 5
+mt 3 5
+mt 4 5
+wait 30000
+sa
